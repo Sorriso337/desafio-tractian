@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { Header } from './components/header'
 
 function App() {
   return (
     <>
-      <h1>asd</h1>
+      <Header />
     </>
   )
 }
