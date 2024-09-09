@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Button, Typography } from '@mui/material'
+import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
 
 function App() {
@@ -21,6 +21,22 @@ function App() {
             </Button>
           </Box>
         </Box>
+        <Grid container spacing={2} marginTop={1}>
+
+          <Grid item xs={12} md={5}>
+            <Box sx={{ padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
+              <TextField fullWidth size='small' label='Buscar ativo ou local' />
+              <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
+              </Box>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} md={7}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
+            </Box>
+          </Grid>
+
+        </Grid>
       </Box>
     </Box>
   )
