@@ -1,20 +1,21 @@
-import { TreeItem } from "@mui/x-tree-view";
-import { Asset } from "../types";
+import { Asset, Location, TreeNode } from "../types";
 
-export const buildTree = (parentId: string, assets: Asset[]) => {
-    return assets
-        .filter(asset => asset.parentId === parentId)
-        .map(asset => {
-            const children = buildTree(asset.id, assets);
-            const label = <>{asset.name} </>;
-            return (
-                <TreeItem
-                    key={asset.id}
-                    itemId={asset.id}
-                    label={label}
-                >
-                    {children}
-                </TreeItem>
-            );
-        });
+export const buildTree = (parentId: string | null, items: Array<Asset | Location>): TreeNode[] => {
+    return items
+        .filter(item => item.parentId === parentId)
+        .map(item => ({
+            ...item,
+            children: buildTree(item.id, items),
+        }));
+};
+
+export const flattenTree = (tree: any[]) => {
+    let flatList: TreeNode[] = [];
+    tree.forEach(node => {
+        flatList.push(node);
+        if (node.children) {
+            flatList = flatList.concat(flattenTree(node.children));
+        }
+    });
+    return flatList;
 };

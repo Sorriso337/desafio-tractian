@@ -1,12 +1,10 @@
+import TreeViewVirtualized from './components/tree-item'
 import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
-import { SimpleTreeView, TreeItem } from '@mui/x-tree-view'
 import { getAssetsByCompanyId, getLocationsByCompanyId } from './services/companies'
 import { useRecoilValue } from 'recoil'
 import { EmpresaSelecionada } from './recoil/atoms/selected-companie'
 import { useQuery } from 'react-query'
-import { buildTree } from './utils'
-import { Asset } from './types'
 
 function App() {
 
@@ -14,11 +12,11 @@ function App() {
 
   const { data: dataAssets } = useQuery("assets", () => getAssetsByCompanyId(id))
 
-  const assets = dataAssets?.data
+  const assets = dataAssets?.data || []
 
   const { data: dataLocations } = useQuery("locations", () => getLocationsByCompanyId(id))
 
-  const locations = dataLocations?.data
+  const locations = dataLocations?.data || []
 
   return (
     <Box height='80%'>
@@ -46,32 +44,7 @@ function App() {
               <TextField fullWidth size='small' label='Buscar ativo ou local' />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
-                <SimpleTreeView
-                  sx={{ height: 600 }}
-                >
-                  {assets
-                    ?.filter((item: Asset) => !item.parentId && !item.locationId)
-                    ?.map((item: Asset) => (
-                      <TreeItem
-                        key={item.id}
-                        itemId={item.id}
-                        label={<>{item.name}</>}
-                      >
-                        {buildTree(item.id, assets)}
-                      </TreeItem>
-                    ))}
-                  {assets
-                    ?.filter((item: Asset) => item.locationId && !item.parentId)
-                    ?.map((item: Asset) => (
-                      <TreeItem
-                        key={item.id}
-                        itemId={item.id}
-                        label={<>{item.name}</>}
-                      >
-                        {buildTree(item.id, assets)}
-                      </TreeItem>
-                    ))}
-                </SimpleTreeView>
+                <TreeViewVirtualized data={[...assets, ...locations]} />
 
 
               </Box>

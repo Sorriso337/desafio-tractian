@@ -13,3 +13,11 @@ export type Asset = {
     status?: string;
     gatewayId?: string;
 };
+
+export type Location = {
+    id: string;
+    name: string;
+    parentId: string;
+};
+
+export type TreeNode = Asset | Location & { children?: TreeNode[] };
