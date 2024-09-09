@@ -1,7 +1,7 @@
 import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view'
-import { getAssetsByCompanyId } from './services/companies'
+import { getAssetsByCompanyId, getLocationsByCompanyId } from './services/companies'
 import { useRecoilValue } from 'recoil'
 import { EmpresaSelecionada } from './recoil/atoms/selected-companie'
 import { useQuery } from 'react-query'
@@ -12,9 +12,13 @@ function App() {
 
   const { id } = useRecoilValue(EmpresaSelecionada)
 
-  const { data } = useQuery("assets", () => getAssetsByCompanyId(id))
+  const { data: dataAssets } = useQuery("assets", () => getAssetsByCompanyId(id))
 
-  const assets = data?.data
+  const assets = dataAssets?.data
+
+  const { data: dataLocations } = useQuery("locations", () => getLocationsByCompanyId(id))
+
+  const locations = dataLocations?.data
 
   return (
     <Box height='80%'>
