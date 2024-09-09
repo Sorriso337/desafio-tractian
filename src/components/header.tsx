@@ -10,13 +10,13 @@ export function Header() {
                 </svg>
             </Box>
             <Box display='flex' justifyContent='center'>
-                <Button variant='contained' size='small' style={{ marginRight: 16 }}>
+                <Button variant='contained' style={{ marginRight: 16 }}>
                     Apex unit
                 </Button>
-                <Button variant='contained' size='small' style={{ marginRight: 16 }}>
+                <Button variant='contained' style={{ marginRight: 16 }}>
                     Tobias unit
                 </Button>
-                <Button variant='contained' size='small'>
+                <Button variant='contained' >
                     Jaguar unit
                 </Button>
             </Box>
