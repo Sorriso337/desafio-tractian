@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import TreeViewVirtualized from './components/tree-item'
 import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
@@ -5,18 +6,49 @@ import { getAssetsByCompanyId, getLocationsByCompanyId } from './services/compan
 import { useRecoilValue } from 'recoil'
 import { EmpresaSelecionada } from './recoil/atoms/selected-companie'
 import { useQuery } from 'react-query'
+import { Asset, Location, TreeNode } from './types'
 
 function App() {
+
+  const [tree, setTree] = useState<TreeNode[]>([])
 
   const { id } = useRecoilValue(EmpresaSelecionada)
 
   const { data: dataAssets } = useQuery("assets", () => getAssetsByCompanyId(id))
 
-  const assets = dataAssets?.data || []
-
   const { data: dataLocations } = useQuery("locations", () => getLocationsByCompanyId(id))
 
-  const locations = dataLocations?.data || []
+  useEffect(() => {
+    const locationMap = new Map(dataLocations?.data?.map((loc: Location) => [loc.id, { ...loc, children: [] }])) as Map<string, TreeNode>;
+
+    const tree: TreeNode[] = [];
+
+    dataAssets?.data?.forEach((asset: Asset) => {
+      if (asset.locationId) {
+        const location = locationMap.get(asset.locationId);
+        if (location) {
+          location.children.push({ ...asset, children: [] });
+        }
+      } else {
+        tree.push({ ...asset, children: [] });
+      }
+    });
+
+    locationMap?.forEach((location: Location) => {
+      if (location.parentId) {
+        const parentLocation = locationMap.get(location.parentId);
+        if (parentLocation) {
+          parentLocation.children.push(locationMap.get(location.id));
+        }
+      } else {
+        const treeNode = locationMap.get(location.id);
+        if (treeNode)
+          tree.push(treeNode);
+      }
+    });
+
+    setTree(tree);
+  }, [dataAssets, dataLocations])
 
   return (
     <Box height='80%'>
@@ -44,8 +76,7 @@ function App() {
               <TextField fullWidth size='small' label='Buscar ativo ou local' />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
-                <TreeViewVirtualized data={[...assets, ...locations]} />
-
+                <TreeViewVirtualized data={tree} />
 
               </Box>
             </Box>
