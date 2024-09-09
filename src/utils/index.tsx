@@ -9,7 +9,7 @@ export const buildTree = (parentId: string | null, items: Array<Asset | Location
         }));
 };
 
-export const flattenTree = (tree: any[]) => {
+export const flattenTree = (tree: TreeNode[]) => {
     let flatList: TreeNode[] = [];
     tree.forEach(node => {
         flatList.push(node);

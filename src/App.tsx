@@ -27,18 +27,20 @@ function App() {
       if (asset.locationId) {
         const location = locationMap.get(asset.locationId);
         if (location) {
-          location.children.push({ ...asset, children: [] });
+          location?.children?.push({ ...asset, children: [] });
         }
       } else {
         tree.push({ ...asset, children: [] });
       }
     });
 
-    locationMap?.forEach((location: Location) => {
+    locationMap.forEach((location) => {
       if (location.parentId) {
         const parentLocation = locationMap.get(location.parentId);
         if (parentLocation) {
-          parentLocation.children.push(locationMap.get(location.id));
+          const treeNode = locationMap.get(location.id);
+          if (treeNode)
+            parentLocation?.children?.push(treeNode);
         }
       } else {
         const treeNode = locationMap.get(location.id);

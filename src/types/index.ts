@@ -12,12 +12,12 @@ export type Asset = {
     sensorType?: string;
     status?: string;
     gatewayId?: string;
-};
+} & { children?: TreeNode[] };
 
 export type Location = {
     id: string;
     name: string;
     parentId: string;
-};
+} & { children?: TreeNode[] };
 
 export type TreeNode = Asset | Location & { children?: TreeNode[] };
