@@ -1,5 +1,6 @@
 import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
+import { SimpleTreeView, TreeItem } from '@mui/x-tree-view'
 
 function App() {
   return (
@@ -27,6 +28,22 @@ function App() {
             <Box sx={{ padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
               <TextField fullWidth size='small' label='Buscar ativo ou local' />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
+                <SimpleTreeView>
+                  <TreeItem itemId="1" label="Applications">
+                    <TreeItem itemId="2" label="Calendar" />
+                    <TreeItem itemId="3" label="Chrome" />
+                    <TreeItem itemId="4" label="Webstorm" />
+                  </TreeItem>
+                  <TreeItem itemId="5" label="Documents">
+                    <TreeItem itemId="6" label="Material-UI">
+                      <TreeItem itemId="7" label="src">
+                        <TreeItem itemId="8" label="index.js" />
+                        <TreeItem itemId="9" label="app.js" />
+                      </TreeItem>
+                      <TreeItem itemId="10" label="public" />
+                    </TreeItem>
+                  </TreeItem>
+                </SimpleTreeView>
               </Box>
             </Box>
           </Grid>
