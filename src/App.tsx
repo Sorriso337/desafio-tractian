@@ -5,14 +5,14 @@ import { getAssetsByCompanyId } from './services/companies'
 import { useRecoilValue } from 'recoil'
 import { EmpresaSelecionada } from './recoil/atoms/selected-companie'
 import { useQuery } from 'react-query'
+import { buildTree } from './utils'
+import { Asset } from './types'
 
 function App() {
 
   const { id } = useRecoilValue(EmpresaSelecionada)
 
-  const { data } = useQuery("assets", () => getAssetsByCompanyId(id), {
-    refetchOnWindowFocus: false,
-  })
+  const { data } = useQuery("assets", () => getAssetsByCompanyId(id))
 
   const assets = data?.data
 
@@ -41,22 +41,35 @@ function App() {
             <Box sx={{ padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
               <TextField fullWidth size='small' label='Buscar ativo ou local' />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
-                <SimpleTreeView>
-                  <TreeItem itemId="1" label="Applications">
-                    <TreeItem itemId="2" label="Calendar" />
-                    <TreeItem itemId="3" label="Chrome" />
-                    <TreeItem itemId="4" label="Webstorm" />
-                  </TreeItem>
-                  <TreeItem itemId="5" label="Documents">
-                    <TreeItem itemId="6" label="Material-UI">
-                      <TreeItem itemId="7" label="src">
-                        <TreeItem itemId="8" label="index.js" />
-                        <TreeItem itemId="9" label="app.js" />
+
+                <SimpleTreeView
+                  sx={{ height: 600 }}
+                >
+                  {assets
+                    ?.filter((item: Asset) => !item.parentId && !item.locationId)
+                    ?.map((item: Asset) => (
+                      <TreeItem
+                        key={item.id}
+                        itemId={item.id}
+                        label={<>{item.name}</>}
+                      >
+                        {buildTree(item.id, assets)}
                       </TreeItem>
-                      <TreeItem itemId="10" label="public" />
-                    </TreeItem>
-                  </TreeItem>
+                    ))}
+                  {assets
+                    ?.filter((item: Asset) => item.locationId && !item.parentId)
+                    ?.map((item: Asset) => (
+                      <TreeItem
+                        key={item.id}
+                        itemId={item.id}
+                        label={<>{item.name}</>}
+                      >
+                        {buildTree(item.id, assets)}
+                      </TreeItem>
+                    ))}
                 </SimpleTreeView>
+
+
               </Box>
             </Box>
           </Grid>
