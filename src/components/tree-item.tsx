@@ -24,7 +24,6 @@ const Icon = (item: TreeNode) => {
 }
 export const renderTree = (nodes: Array<Asset>) => (
     nodes.map((node) => {
-        if (!node) return null;
         return (
             <TreeItem
                 key={node.id}
