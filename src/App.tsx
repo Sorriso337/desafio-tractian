@@ -3,17 +3,19 @@ import { renderTree } from './components/tree-item'
 import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
 import { getAssetsByCompanyId, getLocationsByCompanyId } from './services/companies'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { EmpresaSelecionada } from './recoil/atoms/selected-companie'
 import { useQuery } from 'react-query'
 import { Asset, Location, TreeNode } from './types'
 import { SimpleTreeView } from '@mui/x-tree-view'
+import { Filtros } from './recoil/atoms/filters'
 
 function App() {
 
   const [tree, setTree] = useState<TreeNode[]>([])
 
   const { id } = useRecoilValue(EmpresaSelecionada)
+  const [filtros, setFiltros] = useRecoilState(Filtros)
 
   const { data: dataAssets } = useQuery(["assets", id], () => getAssetsByCompanyId(id), {
     enabled: !!id,
@@ -59,7 +61,21 @@ function App() {
     });
 
     setTree(tree);
-  }, [dataAssets, dataLocations])
+  }, [dataAssets, dataLocations, filtros])
+
+  const handleFilter = (filter: string) => {
+    setFiltros({ ...filtros, filtroInput: filter })
+  }
+
+  const handleFilterSensorEnergia = () => {
+    setFiltros({ ...filtros, apenasSensorEnergia: !filtros.apenasSensorEnergia })
+  }
+
+  const handleFilterCritico = () => {
+    setFiltros({
+      ...filtros, apenasCritico: !filtros.apenasCritico
+    })
+  }
 
   return (
     <Box height='80%'>
@@ -72,10 +88,10 @@ function App() {
             <Typography >Apex Unit</Typography>
           </Breadcrumbs>
           <Box display='flex' justifyContent='center'>
-            <Button disabled variant='outlined' size='small' style={{ marginRight: 16 }}>
+            <Button onClick={handleFilterSensorEnergia} variant={filtros.apenasSensorEnergia ? 'contained' : 'outlined'} size='small' style={{ marginRight: 16 }}>
               Sensor de energia
             </Button>
-            <Button disabled variant='outlined' size='small' style={{ marginRight: 16 }}>
+            <Button onClick={handleFilterCritico} variant={filtros.apenasCritico ? 'contained' : 'outlined'} size='small' style={{ marginRight: 16 }}>
               Crítico
             </Button>
           </Box>
@@ -84,7 +100,7 @@ function App() {
 
           <Grid item xs={12} md={5}>
             <Box sx={{ padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
-              <TextField fullWidth size='small' label='Buscar ativo ou local' />
+              <TextField fullWidth size='small' label='Buscar ativo ou local' onChange={(e) => handleFilter(e.target.value)} />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
                 <SimpleTreeView>
