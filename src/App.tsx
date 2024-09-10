@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { renderTree } from './components/tree-item'
-import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
+import { Box, Breadcrumbs, Button, CardMedia, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
 import { getAssetsByCompanyId, getLocationsByCompanyId } from './services/companies'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -10,6 +10,7 @@ import { Asset, Location, TreeNode } from './types'
 import { SimpleTreeView } from '@mui/x-tree-view'
 import { Filtros } from './recoil/atoms/filters'
 import _ from 'lodash'
+import image from './assets/image.png'
 
 function App() {
 
@@ -131,7 +132,35 @@ function App() {
           </Grid>
 
           <Grid item xs={12} md={7}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
+              <Typography variant='h6' fontWeight='bold'>Nome do Ativo</Typography>
+              <Box sx={{ display: 'flex', gap: 1, marginTop: 4 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <CardMedia
+                    component="img"
+                    image={image}
+                    alt=" Imagem do ativo"
+                    height={226}
+                    width={336} />
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Typography variant='body1' fontWeight='bold'>Localização</Typography>
+                  <Typography variant='body1'></Typography>
+
+                  <Typography variant='body1' marginTop={4} fontWeight='bold'>Responsáveis</Typography>
+                  <Typography variant='body1'></Typography>
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1, marginTop: 4, justifyContent: 'start' }}>
+                <Box width={'40%'}>
+                  <Typography variant='body1' fontWeight='bold'>Sensor</Typography>
+                  <Typography variant='body1'></Typography>
+                </Box>
+                <Box>
+                  <Typography variant='body1' fontWeight='bold'>Receptor</Typography>
+                  <Typography variant='body1'></Typography>
+                </Box>
+              </Box>
             </Box>
           </Grid>
 
