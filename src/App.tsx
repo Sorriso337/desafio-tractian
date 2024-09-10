@@ -18,7 +18,7 @@ function App() {
   const [filtro, setFiltro] = useState('')
   const [tree, setTree] = useState<TreeNode[]>([])
 
-  const { id } = useRecoilValue(EmpresaSelecionada)
+  const { id, name } = useRecoilValue(EmpresaSelecionada)
 
   const [ativoSelecionado, setAtivoSelecionado] = useRecoilState(AssetSelecionado)
   const [filtros, setFiltros] = useRecoilState(Filtros)
@@ -108,7 +108,7 @@ function App() {
 
           <Breadcrumbs aria-label="breadcrumb">
             <Typography fontWeight='bold' >Ativos</Typography>
-            <Typography >Apex Unit</Typography>
+            <Typography >{name} Unit</Typography>
           </Breadcrumbs>
           <Box display='flex' justifyContent='center'>
             <Button onClick={handleFilterSensorEnergia} variant={filtros.apenasSensorEnergia ? 'contained' : 'outlined'} size='small' style={{ marginRight: 16 }}>
