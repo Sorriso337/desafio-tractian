@@ -10,7 +10,9 @@ export function Header() {
     const [selectedCompany, setSelectedCompany] = useRecoilState(EmpresaSelecionada)
 
     const { data } = useQuery("companies", () => getCompanies(), {
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => setSelectedCompany({ id: data.data[0].id }),
+        staleTime: 1000
     })
 
     const companies = data?.data
