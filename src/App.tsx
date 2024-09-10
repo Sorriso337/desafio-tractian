@@ -17,13 +17,13 @@ function App() {
 
   const { data: dataAssets } = useQuery(["assets", id], () => getAssetsByCompanyId(id), {
     enabled: !!id,
-    staleTime: 1000,
+    staleTime: 1000000,
     refetchOnWindowFocus: false
   })
 
   const { data: dataLocations } = useQuery(["locations", id], () => getLocationsByCompanyId(id), {
     enabled: !!id,
-    staleTime: 1000,
+    staleTime: 1000000,
     refetchOnWindowFocus: false
   })
 

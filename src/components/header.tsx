@@ -12,7 +12,7 @@ export function Header() {
     const { data } = useQuery("companies", () => getCompanies(), {
         refetchOnWindowFocus: false,
         onSuccess: (data) => setSelectedCompany({ id: data.data[0].id }),
-        staleTime: 1000
+        staleTime: 1000000
     })
 
     const companies = data?.data
