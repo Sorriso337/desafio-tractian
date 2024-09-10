@@ -156,7 +156,7 @@ function App() {
                       <Typography variant='body1' marginTop={4} fontWeight='bold'>Responsável</Typography>
                       <Typography variant='body1' >
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Avatar sx={{ width: 24, height: 24, background: "#17192d" }}>G</Avatar> Gabriel
+                          <Avatar sx={{ width: 24, height: 24, background: "#2188FF" }} >G</Avatar> Gabriel
                         </Box>
                       </Typography>
                     </Box>
