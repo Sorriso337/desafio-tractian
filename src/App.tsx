@@ -14,13 +14,14 @@ function App() {
 
   const { id } = useRecoilValue(EmpresaSelecionada)
 
-  const { data: dataAssets } = useQuery("assets", () => getAssetsByCompanyId(id), {
+  const { data: dataAssets } = useQuery(["assets", id], () => getAssetsByCompanyId(id), {
     enabled: !!id,
+    staleTime: 1000
   })
 
-  const { data: dataLocations } = useQuery("locations", () => getLocationsByCompanyId(id), {
+  const { data: dataLocations } = useQuery(["locations", id], () => getLocationsByCompanyId(id), {
     enabled: !!id,
-
+    staleTime: 1000
   })
 
   useEffect(() => {
