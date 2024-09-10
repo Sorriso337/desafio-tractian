@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { renderTree } from './components/tree-item'
 import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
@@ -9,9 +9,11 @@ import { useQuery } from 'react-query'
 import { Asset, Location, TreeNode } from './types'
 import { SimpleTreeView } from '@mui/x-tree-view'
 import { Filtros } from './recoil/atoms/filters'
+import _ from 'lodash'
 
 function App() {
 
+  const [filtro, setFiltro] = useState('')
   const [tree, setTree] = useState<TreeNode[]>([])
 
   const { id } = useRecoilValue(EmpresaSelecionada)
@@ -37,6 +39,7 @@ function App() {
     dataAssets?.data?.forEach((asset: Asset) => {
       if (filtros.apenasSensorEnergia && asset.sensorType != 'energy') return;
       if (filtros.apenasCritico && asset.status !== 'alert') return;
+      if (filtros.filtroInput && !asset.name.toLowerCase().includes(filtros.filtroInput.toLowerCase())) return;
       if (asset.locationId) {
         const location = locationMap.get(asset.locationId);
         if (location) {
@@ -64,6 +67,16 @@ function App() {
 
     setTree(tree);
   }, [dataAssets, dataLocations, filtros])
+
+  const debouncedFilter = useMemo(() => _.debounce((value) => {
+    handleFilter(value);
+  }, 1000), [filtros.filtroInput]);
+
+  useEffect(() => {
+    debouncedFilter(filtro);
+
+    return () => debouncedFilter.cancel();
+  }, [filtro, debouncedFilter]);
 
   const handleFilter = (filter: string) => {
     setFiltros({ ...filtros, filtroInput: filter })
@@ -102,7 +115,7 @@ function App() {
 
           <Grid item xs={12} md={5}>
             <Box sx={{ padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
-              <TextField fullWidth size='small' label='Buscar ativo ou local' />
+              <TextField fullWidth size='small' label='Buscar ativo ou local' onChange={e => setFiltro(e.target.value)} />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
                 <SimpleTreeView>
