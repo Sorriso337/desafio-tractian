@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import TreeViewVirtualized from './components/tree-item'
+import { renderTree } from './components/tree-item'
 import { Box, Breadcrumbs, Button, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
 import { getAssetsByCompanyId, getLocationsByCompanyId } from './services/companies'
@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil'
 import { EmpresaSelecionada } from './recoil/atoms/selected-companie'
 import { useQuery } from 'react-query'
 import { Asset, Location, TreeNode } from './types'
+import { SimpleTreeView } from '@mui/x-tree-view'
 
 function App() {
 
@@ -86,7 +87,9 @@ function App() {
               <TextField fullWidth size='small' label='Buscar ativo ou local' />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
-                <TreeViewVirtualized data={tree} />
+                <SimpleTreeView>
+                  {renderTree(tree)}
+                </SimpleTreeView>
 
               </Box>
             </Box>
