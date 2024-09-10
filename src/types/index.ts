@@ -18,6 +18,7 @@ export type Location = {
     id: string;
     name: string;
     parentId: string;
+    isLocation: boolean;
 } & { children?: TreeNode[] };
 
-export type TreeNode = Asset | Location & { children?: TreeNode[] };
+export type TreeNode = Asset | Location;
