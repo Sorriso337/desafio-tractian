@@ -14,12 +14,17 @@ function App() {
 
   const { id } = useRecoilValue(EmpresaSelecionada)
 
-  const { data: dataAssets } = useQuery("assets", () => getAssetsByCompanyId(id))
+  const { data: dataAssets } = useQuery("assets", () => getAssetsByCompanyId(id), {
+    enabled: !!id,
+  })
 
-  const { data: dataLocations } = useQuery("locations", () => getLocationsByCompanyId(id))
+  const { data: dataLocations } = useQuery("locations", () => getLocationsByCompanyId(id), {
+    enabled: !!id,
+
+  })
 
   useEffect(() => {
-    const locationMap = new Map(dataLocations?.data?.map((loc: Location) => [loc.id, { ...loc, children: [] }])) as Map<string, TreeNode>;
+    const locationMap = new Map(dataLocations?.data?.map((loc: Location) => [loc.id, { ...loc, isLocation: true, children: [] }])) as Map<string, TreeNode>;
 
     const tree: TreeNode[] = [];
 
