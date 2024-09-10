@@ -5,7 +5,7 @@ export const TreeNodeIcon = (item: TreeNode) => {
         return (
             <img src={"https://raw.githubusercontent.com/tractian/challenges/main/assets/location.png"} />
         )
-    if ('status' in item)
+    if ('status' in item && item.status != null)
         return (
             <img src={"https://raw.githubusercontent.com/tractian/challenges/main/assets/component.png"} />
         )
