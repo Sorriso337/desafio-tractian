@@ -36,19 +36,9 @@ function App() {
 
     const tree: TreeNode[] = [];
 
-    dataAssets?.data?.forEach((asset: Asset) => {
-      if (filtros.apenasSensorEnergia && asset.sensorType != 'energy') return;
-      if (filtros.apenasCritico && asset.status !== 'alert') return;
-      if (filtros.filtroInput && !asset.name.toLowerCase().includes(filtros.filtroInput.toLowerCase())) return;
-      if (asset.locationId) {
-        const location = locationMap.get(asset.locationId);
-        if (location) {
-          location?.children?.push({ ...asset, children: [] });
-        }
-      } else {
-        tree.push({ ...asset, children: [] });
-      }
-    });
+    const validaStringContem = (string: string, filtro: string) => {
+      return string.toLowerCase().includes(filtro.toLowerCase());
+    }
 
     locationMap.forEach((location) => {
       if (location.parentId) {
@@ -62,6 +52,20 @@ function App() {
         const treeNode = locationMap.get(location.id);
         if (treeNode)
           tree.push(treeNode);
+      }
+    });
+
+    dataAssets?.data?.forEach((asset: Asset) => {
+      if (filtros.apenasSensorEnergia && asset.sensorType != 'energy') return;
+      if (filtros.apenasCritico && asset.status !== 'alert') return;
+      if (!validaStringContem(asset.name, filtros.filtroInput)) return;
+      if (asset.locationId) {
+        const location = locationMap.get(asset.locationId);
+        if (location) {
+          location?.children?.push({ ...asset, children: [] });
+        }
+      } else {
+        tree.push({ ...asset, children: [] });
       }
     });
 
