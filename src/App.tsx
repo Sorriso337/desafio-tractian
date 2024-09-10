@@ -35,6 +35,8 @@ function App() {
     const tree: TreeNode[] = [];
 
     dataAssets?.data?.forEach((asset: Asset) => {
+      if (filtros.apenasSensorEnergia && asset.sensorType != 'energy') return;
+      if (filtros.apenasCritico && asset.status !== 'alert') return;
       if (asset.locationId) {
         const location = locationMap.get(asset.locationId);
         if (location) {
@@ -100,7 +102,7 @@ function App() {
 
           <Grid item xs={12} md={5}>
             <Box sx={{ padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
-              <TextField fullWidth size='small' label='Buscar ativo ou local' onChange={(e) => handleFilter(e.target.value)} />
+              <TextField fullWidth size='small' label='Buscar ativo ou local' />
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
                 <SimpleTreeView>
