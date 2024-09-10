@@ -24,10 +24,17 @@ const Icon = (item: TreeNode) => {
 }
 export const renderTree = (nodes: Array<Asset>) => (
     nodes.map((node) => {
+        const arvoreAcabou = !(node?.children != undefined && node?.children?.length > 0)
         return (
             <TreeItem
                 key={node.id}
                 itemId={node.id}
+                onClick={
+                    () => {
+                        if (arvoreAcabou)
+                            console.log(node)
+                    }
+                }
                 label={
                     <>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
