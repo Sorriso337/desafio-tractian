@@ -72,10 +72,10 @@ function App() {
             <Typography >Apex Unit</Typography>
           </Breadcrumbs>
           <Box display='flex' justifyContent='center'>
-            <Button variant='outlined' size='small' style={{ marginRight: 16 }}>
+            <Button disabled variant='outlined' size='small' style={{ marginRight: 16 }}>
               Sensor de energia
             </Button>
-            <Button variant='outlined' size='small' style={{ marginRight: 16 }}>
+            <Button disabled variant='outlined' size='small' style={{ marginRight: 16 }}>
               Crítico
             </Button>
           </Box>
