@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { renderTree } from './components/tree-item'
-import { Box, Breadcrumbs, Button, CardMedia, Grid, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Breadcrumbs, Button, CardMedia, Grid, TextField, Typography } from '@mui/material'
 import { Header } from './components/header'
 import { getAssetsByCompanyId, getLocationsByCompanyId } from './services/companies'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -11,6 +11,7 @@ import { SimpleTreeView } from '@mui/x-tree-view'
 import { Filtros } from './recoil/atoms/filters'
 import _ from 'lodash'
 import image from './assets/image.png'
+import { AssetSelecionado } from './recoil/atoms/selected-asset'
 
 function App() {
 
@@ -18,6 +19,8 @@ function App() {
   const [tree, setTree] = useState<TreeNode[]>([])
 
   const { id } = useRecoilValue(EmpresaSelecionada)
+
+  const [ativoSelecionado, setAtivoSelecionado] = useRecoilState(AssetSelecionado)
   const [filtros, setFiltros] = useRecoilState(Filtros)
 
   const { data: dataAssets } = useQuery(["assets", id], () => getAssetsByCompanyId(id), {
@@ -96,7 +99,7 @@ function App() {
       ...filtros, apenasCritico: !filtros.apenasCritico
     })
   }
-
+  console.log(ativoSelecionado)
   return (
     <Box height='80%'>
       <Header />
@@ -124,7 +127,7 @@ function App() {
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
                 <SimpleTreeView>
-                  {renderTree(tree)}
+                  {renderTree(tree, (node: TreeNode) => setAtivoSelecionado(node as typeof ativoSelecionado))}
                 </SimpleTreeView>
 
               </Box>
@@ -133,34 +136,43 @@ function App() {
 
           <Grid item xs={12} md={7}>
             <Box sx={{ display: 'flex', flexDirection: 'column', padding: 2, borderRadius: 4, border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
-              <Typography variant='h6' fontWeight='bold'>Nome do Ativo</Typography>
-              <Box sx={{ display: 'flex', gap: 1, marginTop: 4 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <CardMedia
-                    component="img"
-                    image={image}
-                    alt=" Imagem do ativo"
-                    height={226}
-                    width={336} />
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <Typography variant='body1' fontWeight='bold'>Localização</Typography>
-                  <Typography variant='body1'></Typography>
+              {
+                ativoSelecionado.id &&
+                <>
+                  <Typography variant='h6' fontWeight='bold'>{ativoSelecionado?.name}</Typography>
+                  <Box sx={{ display: 'flex', gap: 1, marginTop: 4 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      <CardMedia
+                        component="img"
+                        image={image}
+                        alt=" Imagem do ativo"
+                        height={226}
+                        width={336} />
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      <Typography variant='body1' fontWeight='bold'>Tipo de equipamento</Typography>
+                      <Typography variant='body1' >{ativoSelecionado?.sensorType?.toUpperCase()}</Typography>
 
-                  <Typography variant='body1' marginTop={4} fontWeight='bold'>Responsáveis</Typography>
-                  <Typography variant='body1'></Typography>
-                </Box>
-              </Box>
-              <Box sx={{ display: 'flex', gap: 1, marginTop: 4, justifyContent: 'start' }}>
-                <Box width={'40%'}>
-                  <Typography variant='body1' fontWeight='bold'>Sensor</Typography>
-                  <Typography variant='body1'></Typography>
-                </Box>
-                <Box>
-                  <Typography variant='body1' fontWeight='bold'>Receptor</Typography>
-                  <Typography variant='body1'></Typography>
-                </Box>
-              </Box>
+                      <Typography variant='body1' marginTop={4} fontWeight='bold'>Responsável</Typography>
+                      <Typography variant='body1' >
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Avatar sx={{ width: 24, height: 24, background: "#17192d" }}>G</Avatar> Gabriel
+                        </Box>
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: 'flex', gap: 1, marginTop: 4, justifyContent: 'start' }}>
+                    <Box width={'40%'}>
+                      <Typography variant='body1' fontWeight='bold'>Sensor</Typography>
+                      <Typography variant='body1'>{ativoSelecionado.sensorId}</Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant='body1' fontWeight='bold'>Receptor</Typography>
+                      <Typography variant='body1'>{ativoSelecionado.gatewayId}</Typography>
+                    </Box>
+                  </Box>
+                </>
+              }
             </Box>
           </Grid>
 

@@ -1,9 +1,9 @@
-import { Asset } from '../types';
+import { Asset, TreeNode } from '../types';
 import { TreeItem } from '@mui/x-tree-view';
 import { Box } from '@mui/material';
 import { TreeNodeIcon } from './tree-node-icon';
 
-export const renderTree = (nodes: Array<Asset>) => (
+export const renderTree = (nodes: Array<TreeNode>, onClick: (node: Asset) => void) => (
     nodes.map((node) => {
         const arvoreAcabou = !(node?.children != undefined && node?.children?.length > 0)
         return (
@@ -13,7 +13,7 @@ export const renderTree = (nodes: Array<Asset>) => (
                 onClick={
                     () => {
                         if (arvoreAcabou)
-                            console.log(node)
+                            onClick(node)
                     }
                 }
                 label={
@@ -25,7 +25,7 @@ export const renderTree = (nodes: Array<Asset>) => (
                     </>
                 }
             >
-                {node?.children != undefined && node?.children?.length > 0 ? renderTree(node?.children) : null}
+                {node?.children != undefined && node?.children?.length > 0 ? renderTree(node?.children, onClick) : null}
             </TreeItem>
         )
     })
