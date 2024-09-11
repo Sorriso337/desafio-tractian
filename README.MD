@@ -22,7 +22,7 @@ Visualize o projeto em [https://desafio-tractian-pi.vercel.app/](https://desafio
 
 Confira a demonstração do projeto no vídeo abaixo:
 
-[Assista ao vídeo](./src/assets/Desafio-Tractian-2024-09-10%2022-30-45.mp4)
+[Assista ao vídeo](https://drive.google.com/file/d/1qmuqMvZVgc93mZ-8RX3kdK_jlQ6Baz9z/view?usp=sharing)
 
 ## Pontos de Melhoria
 
