@@ -17,3 +17,9 @@ Este é um projeto de visualização hierárquica de ativos e locais usando Reac
 ## Acesso Online
 
 Visualize o projeto em [https://desafio-tractian-pi.vercel.app/](https://desafio-tractian-pi.vercel.app/).
+
+## Vídeo de Demonstração
+
+Confira a demonstração do projeto no vídeo abaixo:
+
+[Assista ao vídeo](./src/assets/Desafio-Tractian-2024-09-10%2022-30-45.mp4)
