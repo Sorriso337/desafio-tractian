@@ -99,7 +99,7 @@ function App() {
       ...filtros, apenasCritico: !filtros.apenasCritico
     })
   }
-  console.log(ativoSelecionado)
+
   return (
     <Box height='80%'>
       <Header />
@@ -127,7 +127,7 @@ function App() {
               <Box sx={{ border: '1px solid var(--Shapes-Border-card, #D8DFE6)' }}>
 
                 <SimpleTreeView>
-                  {renderTree(tree, (node: TreeNode) => setAtivoSelecionado(node as typeof ativoSelecionado))}
+                  {renderTree(tree, (node: TreeNode) => setAtivoSelecionado(node as typeof ativoSelecionado), filtros)}
                 </SimpleTreeView>
 
               </Box>

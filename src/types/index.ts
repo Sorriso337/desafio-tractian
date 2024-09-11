@@ -22,3 +22,9 @@ export type Location = {
 } & { children?: TreeNode[] };
 
 export type TreeNode = Asset | Location;
+
+export type Filters = {
+    filtroInput: string;
+    apenasSensorEnergia: boolean;
+    apenasCritico: boolean;
+}
