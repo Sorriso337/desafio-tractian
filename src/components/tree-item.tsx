@@ -19,7 +19,7 @@ export const renderTree = (
                     .filter(child => child !== null)
                 : [];
 
-            if (filteredChildren.length > 0 || node.status === 'alert') {
+            if (filteredChildren.length > 0 || ('status' in node && node.status === 'alert')) {
                 return {
                     ...node,
                     children: filteredChildren,
@@ -37,7 +37,7 @@ export const renderTree = (
                     .filter(child => child !== null)
                 : [];
 
-            if (filteredChildren.length > 0 || node.sensorType === 'energy') {
+            if (filteredChildren.length > 0 || ('sensorType' in node && node.sensorType === 'energy')) {
                 return {
                     ...node,
                     children: filteredChildren,
@@ -75,7 +75,7 @@ export const renderTree = (
                         </Box>
                     }
                 >
-                    {node.children?.length > 0 ? renderTree(node.children, onClick, filters) : null}
+                    {node.children?.length as number > 0 ? renderTree(node.children as TreeNode[], onClick, filters) : null}
                 </TreeItem>
             ))}
         </>
