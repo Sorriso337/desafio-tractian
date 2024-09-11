@@ -23,3 +23,8 @@ Visualize o projeto em [https://desafio-tractian-pi.vercel.app/](https://desafio
 Confira a demonstração do projeto no vídeo abaixo:
 
 [Assista ao vídeo](./src/assets/Desafio-Tractian-2024-09-10%2022-30-45.mp4)
+
+## Pontos de Melhoria
+
+- Um ponto importante a ser apontado é o filtro de texto quando existem muitos componentes em tela, o valor demora pouco mais de 1 segundo para ser carregado, para resolver isso eu implementaria a virtualização da listagem
+- Trabalhar melhor os componentes para reutilizar código
