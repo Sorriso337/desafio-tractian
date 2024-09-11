@@ -47,6 +47,26 @@ export const renderTree = (
             }
         }
 
+        if (filters.filtroInput != "") {
+            const filteredChildren = node.children
+                ? node.children
+                    .map(filterAndRenderTree)
+                    .filter(child => child !== null)
+                : [];
+
+            const nodeNameMatches = node.name.toLowerCase().includes(filters.filtroInput.toLowerCase());
+            const childrenMatch = filteredChildren.length > 0;
+
+            if (nodeNameMatches || childrenMatch) {
+                return {
+                    ...node,
+                    children: filteredChildren,
+                };
+            } else {
+                return null;
+            }
+        }
+
         return {
             ...node,
             children: node.children?.map(filterAndRenderTree).filter(child => child !== null) || [],
